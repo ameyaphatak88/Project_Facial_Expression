@@ -4,9 +4,10 @@ import sys
 from flask import Flask
 
 def get_output_filename(ipfilename):
-  a = str(ipfilename)
-  a = a[:-4]
-  return a
+  fname = str(ipfilename)
+  onlyfname,extn = os.path.splitext(fname)
+  newfname = onlyfname + "_out" + extn
+  return newfname
 
 
 def read_and_write(filepath):
@@ -20,7 +21,7 @@ def read_and_write(filepath):
   s = (frame_width, frame_height)
 
   outfile = get_output_filename(filepath)
-  out1 = cv2.VideoWriter(outfile + '_out.mkv',
+  out1 = cv2.VideoWriter(outfile,
                         cv2.VideoWriter_fourcc('M','J','P','G'), 
                         100, 
                         (frame_width, frame_height))
@@ -32,6 +33,10 @@ def read_and_write(filepath):
       
       # Write the frame into the file 'output.avi'
       out1.write(frame)
+
+      # todo
+      #emotion = RecognizeExpression(frame)
+      #print(emotion)
 
       # Display the resulting frame    
       cv2.imshow('frame',frame)
