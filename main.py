@@ -2,6 +2,7 @@ import cv2
 import os
 import sys
 from flask import Flask
+import Recognizer
 
 def get_output_filename(ipfilename):
   fname = str(ipfilename)
@@ -28,15 +29,15 @@ def read_and_write(filepath):
 
   while(True):
     ret, frame = video1.read()
-
     if ret == True: 
       
       # Write the frame into the file 'output.avi'
       out1.write(frame)
 
       # todo
-      #emotion = RecognizeExpression(frame)
+      #emotion = Recognizer.predict(frame)
       #print(emotion)
+      frame = Recognizer.predict_and_rectangle(frame)
 
       # Display the resulting frame    
       cv2.imshow('frame',frame)
