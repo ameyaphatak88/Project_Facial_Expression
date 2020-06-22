@@ -3,6 +3,11 @@ import os
 import sys
 from flask import Flask
 
+def get_output_filename(ipfilename):
+  a = str(ipfilename)
+  a = a[:-4]
+  return a
+
 
 def read_and_write(filepath):
   assert os.path.isfile(filepath), 'Invalid filepath as argument'
@@ -14,9 +19,10 @@ def read_and_write(filepath):
 
   s = (frame_width, frame_height)
 
-  out1 = cv2.VideoWriter('filepath_out.mkv', #todo: create a new file appending some string e.g. ameya.mkv -> ameya_out.mkv
+  outfile = get_output_filename(filepath)
+  out1 = cv2.VideoWriter(outfile + '_out.mkv',
                         cv2.VideoWriter_fourcc('M','J','P','G'), 
-                        10, 
+                        100, 
                         (frame_width, frame_height))
 
   while(True):
@@ -39,6 +45,7 @@ def read_and_write(filepath):
       break  
 
   out1.release()
+
 
 
 if __name__ == "__main__":
